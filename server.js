@@ -1,29 +1,13 @@
-import express from 'express';
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 
-const app = express();
+import app from "./app.js";
+import { connectDB } from "./config/db.js";
 
 const port = process.env.PORT || 4000;
 
+await connectDB();
+
 app.listen(port, () => {
     console.log(`server is runnig on port ${port}`);
-
-})
-
-// connect to databse
-
-import { connectDB } from './config/db.js';
-connectDB();
-
-
-// middleware
-app.use(express.json());
-
-// routes
-
-import authRouter from './routes/authRoutes.js';
-import blogRouter from './routes/blogRoutes.js';
-
-app.use('/api/auth', authRouter);
-app.use('/api/blogs', blogRouter);
+});

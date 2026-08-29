@@ -1,6 +1,6 @@
 import userModel from "../models/user.js";
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 // register user
 export const registerUser = async (req, res) => {
@@ -128,6 +128,45 @@ export const logOutUser = async (req, res) => {
     try {
         res.clearCookie("token");
         res.status(200).json({ message: "Logged out successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "Internal Server Error", error: error.message });
+    }
+}
+
+// update username
+export const updateUsername = async (req, res) => {
+    try {
+        const { username } = req.body;
+
+        if (!username || !username.trim()) {
+            return res.status(400).json({ message: "Username is required" });
+        }
+
+        const trimmedUsername = username.trim();
+
+        const existingUser = await userModel.findOne({ username: trimmedUsername });
+        if (existingUser && existingUser._id.toString() !== req.user._id.toString()) {
+            return res.status(400).json({ message: "Username already exists" });
+        }
+
+        const user = await userModel.findByIdAndUpdate(
+            req.user._id,
+            { username: trimmedUsername },
+            { returnDocument: "after", select: "-password" }
+        );
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.status(200).json({
+            message: "Username updated successfully",
+            user: {
+                id: user._id,
+                username: user.username,
+                useremail: user.useremail
+            }
+        });
     } catch (error) {
         res.status(500).json({ message: "Internal Server Error", error: error.message });
     }

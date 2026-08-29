@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog API</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 3rem auto; padding: 0 1rem; line-height: 1.5; }
+    code { background: #f3f3f3; padding: 0.1rem 0.35rem; border-radius: 4px; }
+    ul { padding-left: 1.2rem; }
+  </style>
+</head>
+<body>
+  <h1>Blog API</h1>
+  <p>This Netlify site serves the Express API. Try <a href="/api/health"><code>/api/health</code></a>.</p>
+  <h2>Auth</h2>
+  <ul>
+    <li><code>POST /api/auth/register</code></li>
+    <li><code>POST /api/auth/login</code></li>
+    <li><code>POST /api/auth/reset-password</code></li>
+    <li><code>POST /api/auth/logout</code></li>
+    <li><code>PUT /api/auth/update-name</code> (Bearer token)</li>
+  </ul>
+  <h2>Blogs</h2>
+  <ul>
+    <li><code>POST /api/blogs/createBlog</code></li>
+    <li><code>GET /api/blogs/getBlogs</code></li>
+    <li><code>GET /api/blogs/getBlog/:id</code></li>
+    <li><code>PUT /api/blogs/updateBlog/:id</code></li>
+    <li><code>DELETE /api/blogs/deleteBlog/:id</code></li>
+  </ul>
+</body>
+</html>
